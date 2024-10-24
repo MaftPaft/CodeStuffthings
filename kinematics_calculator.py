@@ -28,7 +28,7 @@ output:
 """
 import math
 
-def e1(v2,v1,a,t):
+def e1(v2,v1,a,t): #v2=v1+at
     if [v2,v1,a,t].count(None) ==1:
         if v2==None:
             return [v1+a*t,"final_velocity","v2=v1+at"]
@@ -38,11 +38,10 @@ def e1(v2,v1,a,t):
             return [(v2-v1)/t,"acceleration","v2=v1+at"]
         elif t==None:
             return [(v2-v1)/a,"time","v2=v1+at"]
-def e2(d,t,v1,a):
+        
+def e2(d,t,v1,a): #v1t+1/2a(t^2)
     if [d,t,v1,a].count(None)==1:
         if t==None:
-            #d=v1t+1/2a(t^2) -> 1/2a(t^2)+v1t-d=0
-            # quadratic formula --> (-v1 +- sqrt[ v1^2 - 4(1/2a)(-d) ])/a
             root=math.sqrt(v1**2-4*(a/2)*(-d)) 
             t1=(-v1+root)/a
             t2=(-v1-root)/a
@@ -50,16 +49,11 @@ def e2(d,t,v1,a):
         elif d==None:
             return [v1*t + a/2 * (t**2), "displacement","d=v1t+1/2a(t^2)"]
         elif v1==None:
-            # v1t + a/2*t^2
-            # d=v1t+1/2a(t^2)
-            # (d-(1/2a*t^2))/t
             return [(d-(a/2*(t**2)))/t,"initial_velocity","d=v1t+1/2a(t^2)"]
         elif a==None:
-            # (d-v1t)/t^2*2
-            # d=v1t+1/2a(t^2)
-            # (d-v1t)/(t**2)*2=1/2a(t^2)
             return [(d-v1*t)/(t**2)*2,"acceleration","d=v1t+1/2a(t^2)"]
-def e3(d,t,v2,a):
+        
+def e3(d,t,v2,a): #d=v2t-1/2a(t^2)
     if [d,t,v2,a].count(None)==1:
         if t==None:
             root=math.sqrt(v2**2-4*(-a/2)*(-d))
@@ -69,30 +63,21 @@ def e3(d,t,v2,a):
         elif d==None:
             return [v2*t - a/2 * (t**2), "displacement","d=v2t-1/2a(t^2)"]
         elif v2==None:
-            # v2t - a/2*t^2
-            # d=v2t-1/2a(t^2)
-            # (d+(1/2a(t^2)))/t
             return [(d+(a/2*(t**2)))/t,"final_velocity","d=v2t-1/2a(t^2)"]
         elif a==None:
-            # d=v2t-1/2a(t^2)
-            # (d-v2t)/(t**2)*-2=a
             return [(d-v2*t)/(t**2)*-2,"acceleration","d=v2t-1/2a(t^2)"]
-def e4(d,v1,v2,t):
+        
+def e4(d,v1,v2,t): # d=(v1+v2)/2*t
     if [d,v1,v2,t].count(None) ==1:
         if d==None:
             return [(v1+v2)/2*t,"displacement","d=(v1+v2)/2*t"]
         elif v1==None:
-            #d=(v1+v2)/2*t
-            #d*2/t-v2=v1
             return [d*2/t-v2,"initial_velocity","d=(v1+v2)/2*t"]
         elif v2==None:
-            #d*2/t=v1+v2
-            #d*2/t-v1=v2
             return [d*2/t-v1,"final_velocity","d=(v1+v2)/2*t"]
         elif t==None:
-            #d=(v1+v2)/2*t
-            
             return [2*d/(v1+v2),"time","d=(v1+v2)/2*t"]
+        
 def e5(v2,v1,a,d): #v2^2=v1^2+2ad
     if [v2,v1,a,d].count(None)==1:
         if v2==None:
@@ -104,8 +89,6 @@ def e5(v2,v1,a,d): #v2^2=v1^2+2ad
         elif d==None:
             return [(v2**2-v1**2)/(2*a),"displacement","v2^2=v1^2+2ad"]
         
-
-
 def f1(mass,acceleration,Fnet):
     if [mass,acceleration,Fnet].count(None)==1:
         if mass==None:

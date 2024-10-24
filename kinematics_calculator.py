@@ -1,26 +1,30 @@
 """
-This kinematics calculator finds the unknown variables when given at least 3 variables (None for unknown parameters)
+This forces_kinematics calculator finds the unknown variables when given at least 3 variables (None for unknown parameters)
 
 the equation is chosen and rearanged based on what variables are given, and what the unknowns are.
 
-the output gives you answers for both unknowns
+the output gives you answers for each unknown if possible
+
 
 for example:
 
-A object moves with acceleration 2m/s^2 for 2 sec and cover a displacement of 10m. Find the initial velocity and Final Veloctiy.
+A 1580kg car is traveling with a speed of 15m/s. What is the net force that is required to bring the car to a halt in a distance of 50.0m?
 
-given:
-- accleration of 2m/s^2
-- time of 2s
-- displacement of 10m
+mass=1580
+Fnet=None
+acceleration=None
+time=None
+displacement=50
+initial_velocity=15
+final_velocity=0
 
-unknowns are initial and final velocities
-
-kinematic_solver(2,10,2,None,None)
+for solutions in kinematic_solver(time,displacement,acceleration,initial_velocity,final_velocity,Fnet,mass):
+    print(solutions)
 
 output:
-[3.0, 'initial_velocity', 'd=v1t+1/2a(t^2)']
-[7.0, 'final_velocity', 'd=v2t-1/2a(t^2)']
+[2.0689655172413794, 'acceleration', 'v2=v1+at']
+[121.8, 'displacement', 'd=(v1+v2)/2*t']   
+[3268.9655172413795, 'Fnet', 'Fnet=mass*acc']
 """
 import math
 
@@ -39,7 +43,7 @@ def e2(d,t,v1,a):
         if t==None:
             #d=v1t+1/2a(t^2) -> 1/2a(t^2)+v1t-d=0
             # quadratic formula --> (-v1 +- sqrt[ v1^2 - 4(1/2a)(-d) ])/a
-            root=math.sqrt(v1**2-4*(a/2)*(-d))
+            root=math.sqrt(v1**2-4*(a/2)*(-d)) 
             t1=(-v1+root)/a
             t2=(-v1-root)/a
             return [t1 if t1>t2 else t2, "time","d=v1t+1/2(t^2)"]
@@ -102,7 +106,16 @@ def e5(v2,v1,a,d): #v2^2=v1^2+2ad
         
 
 
-def kinematic_solver(time,displacement,acceleration,initial_velocity,final_velocity):
+def f1(mass,acceleration,Fnet):
+    if [mass,acceleration,Fnet].count(None)==1:
+        if mass==None:
+            return [Fnet/acceleration,"mass","mass=Fnet/acc"]
+        elif acceleration==None:
+            return [Fnet/mass,"acc","acc=Fnet/mass"]
+        elif Fnet==None:
+            return [mass*acceleration,"Fnet","Fnet=mass*acc"]
+
+def kinematic_solver(time=None,displacement=None,acceleration=None,initial_velocity=None,final_velocity=None,Fnet=None,mass=None):
     """
     set the parameter to None if it is unknown
 
@@ -111,6 +124,13 @@ def kinematic_solver(time,displacement,acceleration,initial_velocity,final_veloc
      - the name of the missing variable
      - what type of equation was used
     """
+    solved=[]
+    f=f1(mass,acceleration,Fnet)
+    if f:
+        if "acc" in f:
+            acceleration=f[0]
+            solved.append(f)
+    
     Big5=[
         e1(final_velocity,initial_velocity,acceleration,time), # v2=v1+at
         e2(displacement,time,initial_velocity,acceleration),#d=v1t+1/2a(t^2)
@@ -118,17 +138,24 @@ def kinematic_solver(time,displacement,acceleration,initial_velocity,final_veloc
         e4(displacement,initial_velocity,final_velocity,time), #d=(v1+v2)/2*t
         e5(final_velocity,initial_velocity,acceleration,displacement) # v2^2=v1^2+2ad
     ]
-    solved=[]
     for i in Big5:
         if i:
+            if "acceleration" in i:
+                acceleration=i[0]
             solved.append(i)
+    
+    forces=f1(mass,acceleration,Fnet)
+    if forces: solved.append(forces)
+    
     return solved
-time=2
-displacement=10
-acceleration=2
-initial_velocity=None
-final_velocity=None
 
-solved=kinematic_solver(time,displacement,acceleration,initial_velocity,final_velocity)
-for s in solved:
-    print(s)
+mass=1580
+Fnet=None
+acceleration=None
+time=None
+displacement=50
+initial_velocity=15
+final_velocity=0
+
+for solutions in kinematic_solver(time,displacement,acceleration,initial_velocity,final_velocity,Fnet,mass):
+    print(solutions)

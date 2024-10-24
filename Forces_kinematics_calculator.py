@@ -89,14 +89,14 @@ def e5(v2,v1,a,d): #v2^2=v1^2+2ad
         elif d==None:
             return [(v2**2-v1**2)/(2*a),"displacement","v2^2=v1^2+2ad"]
         
-def f1(mass,acceleration,Fnet):
+def f1(mass,acceleration,Fnet): # Fnet = mass * acceleration
     if [mass,acceleration,Fnet].count(None)==1:
         if mass==None:
-            return [Fnet/acceleration,"mass","mass=Fnet/acc"]
+            return [Fnet/acceleration,"mass","mass=Fnet/acceleration"]
         elif acceleration==None:
-            return [Fnet/mass,"acc","acc=Fnet/mass"]
+            return [Fnet/mass,"acceleration","acceleration=Fnet/mass"]
         elif Fnet==None:
-            return [mass*acceleration,"Fnet","Fnet=mass*acc"]
+            return [mass*acceleration,"Fnet","Fnet=mass*acceleration"]
 
 def kinematic_solver(time=None,displacement=None,acceleration=None,initial_velocity=None,final_velocity=None,Fnet=None,mass=None):
     """
@@ -110,7 +110,7 @@ def kinematic_solver(time=None,displacement=None,acceleration=None,initial_veloc
     solved=[]
     f=f1(mass,acceleration,Fnet)
     if f:
-        if "acc" in f:
+        if "acceleration" in f:
             acceleration=f[0]
             solved.append(f)
     

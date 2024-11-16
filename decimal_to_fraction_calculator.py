@@ -36,7 +36,7 @@ def float_to_fraction(numf: float):
 
 from random import uniform
 
-n=uniform(1,100)
+n=uniform(1,10000)
 fn=float_to_fraction(n)
 print(f"number: {n}, \n\n[fraction, divided_fraction]: {fn} \n\n the divided_fraction should equal the number given")
 

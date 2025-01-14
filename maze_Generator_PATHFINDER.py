@@ -1,4 +1,4 @@
-from mazeimport import MakeMaze
+from maze_generator import MakeMaze
 
 
 branch=[] # not very important but tracks the dead ends as well by recording the path
